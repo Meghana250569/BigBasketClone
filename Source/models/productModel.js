@@ -1,0 +1,73 @@
+const mongoose=required('mongoose')
+
+const productSchema= new mongoose.Schema({
+    name:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    description:{
+        type:String,
+        default:""
+    },
+    brand:{
+        type:String,
+        default:""
+    },
+    categoryId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Category",
+        required:true
+    },
+    subCategoryId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"SubCategory",
+        required:true
+    },
+    price:{
+        type:Number,
+        default:0,
+        min:0
+    },
+    discountPrice:{
+        type:Number,
+        default:0,
+        min:0
+    },
+    stock:{
+        type:Number,
+        default:0,
+        min:0
+    },
+    unit:{
+        type:String,
+        enum:["kg","gram","lit","ml","pcs","pack"],
+        required:true
+    },
+    quantity:{
+        type:Number,
+        required:true
+    },
+    images:[{
+        type:String
+    }],
+    averagerating:{
+        type:Number,
+        default:0
+    },
+    totalReviews:{
+        type:Number,
+        default:0
+    },
+    isFeatured:{
+        type:Boolean,
+        default:true
+    },
+    isAvailable:{
+        type:Boolean,
+        default:true
+    }
+
+})
+
+module.exports=mongoose.model("Product",productSchema)
