@@ -11,10 +11,10 @@ const subCategory=new mongoose.Schema({
         ref:"Category",
         required:true
     },
-    image:{
-        type:String,
-        default:""
-    },
+    image:[{
+        url:String,
+        publicId:String
+    }],
     description:{
         type:String,
         default:""
