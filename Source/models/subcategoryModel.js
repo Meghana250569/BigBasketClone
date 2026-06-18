@@ -15,10 +15,7 @@ const subCategory=new mongoose.Schema({
         url:String,
         publicId:String
     }],
-    description:{
-        type:String,
-        default:""
-    },
+    
     isActive:{
         type:Boolean,
         default:true
