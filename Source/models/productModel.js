@@ -6,10 +6,6 @@ const productSchema= new mongoose.Schema({
         required:true,
         trim:true
     },
-    description:{
-        type:String,
-        default:""
-    },
     brand:{
         type:String,
         default:""
@@ -48,10 +44,11 @@ const productSchema= new mongoose.Schema({
         type:Number,
         required:true
     },
-    images:[{
-        type:String
+    image:[{
+        url:String,
+        publicId:string
     }],
-    averagerating:{
+    averageRating:{
         type:Number,
         default:0
     },
