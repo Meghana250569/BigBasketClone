@@ -25,12 +25,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         select:false,
-
-
-    },
+     },
     role:{
         type:String,
-        enum:["customer","vendor"],
+        enum:["customer","admin"],
         default:"customer"
     },
     isVerified:{

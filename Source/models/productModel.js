@@ -45,8 +45,12 @@ const productSchema= new mongoose.Schema({
         required:true
     },
     image:[{
-        url:String,
-        publicId:string
+        url:{
+            type:String
+        },
+        publicId:{
+            type:String
+        }
     }],
     averageRating:{
         type:Number,

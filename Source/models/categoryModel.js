@@ -8,8 +8,12 @@ const categorySchema=new  mongoose.Schema({
         trim:true
     },
     image:[{
-        url:String,
-        publicId:String
+        url: {
+            type: String
+        },
+        publicId: {
+            type: String
+        }
     }],
     
     
