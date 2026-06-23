@@ -1,4 +1,4 @@
-const express = require('express');
+
 const User=require('../models/userModel')
 
 exports.getUsers=async (req,res) => {
@@ -36,7 +36,7 @@ exports.getUserById= async (req,res) =>{
         })
     } catch (error) {
         res.status(500).json({
-            seccess:false,
+            success:false,
             message:error.message
         });
     }
@@ -45,16 +45,16 @@ exports.getUserById= async (req,res) =>{
 exports.updateUser=async (req,res) =>{
     try {
         const {name,phoneNumber}=req.body
-        if(req.user.role !=="admin" && req.user._id.toString() !==req.params.id) {
+        if(req.user.role !=="admin" && req.user.id !==req.params.id) {
             return res.status(403).json({
-                seccess:false,
+                success:false,
                 message:"Access Forbidden"
             });
         }
         const user=await User.findByIdAndUpdate(req.params.id, {name,phoneNumber},{new:true, runValidators:true}).select("-password")
         if(!user){
             return res.status(404).json({
-                seccess:false,
+                success:false,
                 message:"User Not Found"
             });
         }
@@ -101,13 +101,13 @@ exports.changeUserRole= async (req,res) =>{
 
         if(!["customer","admin"].includes(role)){
             return res.status(400).json({
-                seccess:false,
+                success:false,
                 message:"Invalid Role"
             });
         }
 
         const user =await User.findByIdAndUpdate(req.params.id, {role},
-                    {new:true,runValidators:true}).select("password")
+                    {new:true,runValidators:true}).select("-password")
 
         if(!user){
             return res.status(404).json({
