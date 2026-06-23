@@ -106,7 +106,7 @@ exports.getProductById=async (req,res)=>{
     }
 };
 
-exports.updateProduct=await (req,res) =>{
+exports.updateProduct=async (req,res) =>{
        try {
          const product=await Product.findByIdAndUpdate(req.params.id,
             req.body,
@@ -114,8 +114,50 @@ exports.updateProduct=await (req,res) =>{
              new:true,
              runValidators:true
             } );
+
+            if(!product){
+                return res.status(404).json({
+                    success:false,
+                    message:"Product Not Found"
+                });
+            }
+            res.status(200).json({
+                success:true,
+                message:"Product Updated successfully",
+                data:product
+            })
        } catch (error) {
-        
+            res.status(500).json({
+                success:false,
+                message:error.message
+            });
        }
         
-}
+};
+
+exports.deleteProduct= async (req,res)=>{
+    try {
+        const product=await Product.findById(req.params.id);
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"Product not found"
+            });
+        }
+
+        await product.deleteOne()
+
+        res.status(200).json({
+            success:true,
+            message:"Product Deleted successfully",
+            
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message
+        });
+    }
+};
+
