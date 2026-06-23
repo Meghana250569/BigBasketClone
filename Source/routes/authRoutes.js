@@ -7,10 +7,12 @@ const{
     getProfile
 }=require('../controllers/authController')
 
-const authenticate=require('../middleware/auth')
+const authMiddleware=require('../middleware/auth')
 
 router.post('/register',register)
 
 router.post('/login',login)
 
-router.get('/profile',authenticate,getProfile)
+router.get('/profile',authMiddleware,getProfile)
+
+module.exports=router;

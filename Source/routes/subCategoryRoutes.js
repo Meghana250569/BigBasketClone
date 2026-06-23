@@ -1,5 +1,5 @@
-const express =require('express')
-const router=require('Router')
+const express =require('express');
+const router=express.Router();
 
 const {
    createSubCategory,
@@ -11,11 +11,11 @@ const {
 
 const authenticate = require("../middleware/auth");
 const authorize = require("../middleware/authorize");
-const { getCategoryById } = require('../controllers/categoryController');
+
 
 router.get("/", getSubCategories);
 
-router.get("/:id",getCategoryById)
+router.get("/:id",getSubCategoryById)
 
 router.post(
     "/",
@@ -25,7 +25,7 @@ router.post(
 );
 
 router.put(
-    "/id",
+    "/:id",
     authenticate,
     authorize("admin"),
     updateSubCategory
