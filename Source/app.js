@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use( express.urlencoded({extended: true}));
-
 app.use(morgan("dev"))
 
 app.get("/", (req, res) => {
@@ -23,12 +22,17 @@ app.get("/", (req, res) => {
 )
 
  app.use(
-    "/api/user",
+    "/api/users",
     require("./routes/userRoutes")
  )
+ 
+ app.use(
+    "/api/addresses",
+    require("./routes/addressRoutes")
+)
 
  app.use(
-     "/api/category",
+     "/api/categories",
      require("./routes/categoryRoutes")
  );
 
@@ -39,9 +43,18 @@ app.get("/", (req, res) => {
 
  app.use(
      "/api/products",
-     require("./routes/productRoutes")
+     require("./routes/productRouter")
  );
 
+app.use(
+    "/api/cart",
+    require("./routes/cartRoutes")
+);
+
+app.use(
+    "/api/orders",
+    require("./routes/orderRoutes")
+);
 
  app.use((req, res) => {
      res.status(404).json({
