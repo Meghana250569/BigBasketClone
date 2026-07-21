@@ -6,13 +6,43 @@ const addressSchema= new mongoose.Schema({
             ref:"User",
             required:true
         },
-        fullName:String,
-        phoneNumber:String,
-        houseNo:String,
-        street:String,
-        landmark:String,
-        city:String,
-        pincode:String,
+        fullName:{
+            type:String,
+            required:true,
+            trim:true
+        },
+        phoneNumber:{
+            type:String,
+            required:true
+        },
+        houseNo:{
+            type:String,
+            required:true
+        },
+        street:{
+            type:String,
+            required:true
+        },
+        landmark:{
+            type:String
+        },
+        city:{
+            type:String,
+            required:true
+        },
+        state:{
+            type:String,
+            
+        },
+        pincode:{
+            type:String,
+            required:true
+        },
+        addressType:{
+            type:String,
+            enum:["Home","Office","Others"],
+            default:"Home"
+        },
         isDefault:{
             type:Boolean,
             default:false

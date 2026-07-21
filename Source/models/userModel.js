@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const { timeStamp } = require('node:console')
-const { type } = require('node:os')
+
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -11,21 +10,18 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique:true,
+        
         lowercase:true,
         trim:true
     },
     phoneNumber:{
         type:String,
         required:true,
-        unique:true,
+        
         trim:true
     },
-    password:{
-        type:String,
-        required:true,
-        select:false,
-     },
+   
+
     role:{
         type:String,
         enum:["customer","admin"],

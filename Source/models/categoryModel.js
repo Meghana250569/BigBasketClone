@@ -7,14 +7,6 @@ const categorySchema=new  mongoose.Schema({
         unique:true,
         trim:true
     },
-    image:[{
-        url: {
-            type: String
-        },
-        publicId: {
-            type: String
-        }
-    }],
     
     
     isActive:{
@@ -28,4 +20,5 @@ const categorySchema=new  mongoose.Schema({
     }
 )
 
-module.exports=mongoose.model("Category",categorySchema)
+console.log("Category model loaded");
+module.exports=mongoose.model("category",categorySchema)
