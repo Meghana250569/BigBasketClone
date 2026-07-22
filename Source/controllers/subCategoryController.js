@@ -5,8 +5,7 @@ exports.createSubCategory= async (req,res) =>{
     try {
         const {
             name,
-            categoryId,
-            image
+            categoryId
         }=req.body
 
         if(!name || !categoryId){
@@ -31,7 +30,7 @@ exports.createSubCategory= async (req,res) =>{
             })
         };
 
-        const subCategory= await SubCategory.create({name,categoryId,image});
+        const subCategory= await SubCategory.create({name,categoryId});
         res.status(209).json({
             success:true,
             message:"SubCategory Created Succcessfully"
@@ -46,20 +45,34 @@ exports.createSubCategory= async (req,res) =>{
 
 }
 
-exports.getSubCategories=async (req,res)=>{
-    try {
-        const subCategory=await SubCategory.find({isActive:true}).populate("categoryId","name")
-        res.status(200).json({
-            success:true,
-            data:SubCategory
-        })
-    } catch (error) {
-        res.status(500).json({
-            success:false,
-            message:error.message
-        })
+exports.getSubCategories = async (req, res) => {
+  try {
+    const { categoryId } = req.query;
+
+    const filter = { isActive: true };
+
+    if (categoryId) {
+      filter.categoryId = categoryId;
     }
-}
+
+    console.log("Filter:", filter);
+
+    const subCategories = await SubCategory.find(filter);
+
+    console.log("Found:", subCategories);
+
+    res.status(200).json({
+      success: true,
+      data: subCategories,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 exports.getSubCategoryById = async (req, res) => {
     try {
@@ -89,7 +102,7 @@ exports.getSubCategoryById = async (req, res) => {
 
 exports.updateSubCategory = async (req, res) => {
     try {
-        const { name, categoryId, image, isActive } = req.body;
+        const { name, categoryId, isActive } = req.body;
 
         if (categoryId) {
             const category = await Category.findById(categoryId);
@@ -107,7 +120,7 @@ exports.updateSubCategory = async (req, res) => {
             {
                 name,
                 categoryId,
-                image,
+                
                 isActive
             },
             {

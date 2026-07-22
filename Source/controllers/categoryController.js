@@ -1,5 +1,4 @@
 const Category= require('../models/categoryModel')
-const cloudinary=require('../config/cloudinary')
 
 exports.createCategory= async (req,res) =>{
     try {
@@ -19,15 +18,14 @@ exports.createCategory= async (req,res) =>{
             });
         }
 
-        const category = await Category.create({
-            name,
-            image:req.file.path
+        const Category = await Category.create({
+            name
         });
         
         res.status(201).json({
             success:true,
             message:"Category created successfully",
-            data:category
+            data:Category
         });
 
 
@@ -41,13 +39,13 @@ exports.createCategory= async (req,res) =>{
 
 exports.getCategories = async (req, res) => {
     try {
-        const categories = await Category.find({
+        const category = await Category.find({
             isActive: true
         });
 
         res.status(200).json({
             success: true,
-            data: categories
+            data: category
         });
 
     } catch (error) {
@@ -56,6 +54,54 @@ exports.getCategories = async (req, res) => {
             message: error.message
         });
     }
+};
+
+exports.getCategoriesWithSubCategories = async (req, res) => {
+  try {
+    const categories = await Category.aggregate([
+      {
+        $match: {
+          isActive: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "subcategories", // MongoDB collection name
+          localField: "_id",
+          foreignField: "categoryId",
+          as: "subCategories",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          images: 1,
+          isActive: 1,
+          subCategories: {
+            $filter: {
+              input: "$subCategories",
+              as: "sub",
+              cond: {
+                $eq: ["$$sub.isActive", true],
+              },
+            },
+          },
+        },
+      },
+      {
+        $sort: {
+          name: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 exports.getCategoryById = async (req, res) => {
@@ -86,7 +132,7 @@ exports.getCategoryById = async (req, res) => {
 
 exports.updateCategory = async (req, res) => {
     try {
-        const { name, image, isActive } = req.body;
+        const { name,  isActive } = req.body;
 
         if (name) {
             const existingCategory = await Category.findOne({
@@ -106,7 +152,7 @@ exports.updateCategory = async (req, res) => {
             req.params.id,
             {
                 name,
-                image,
+               
                 isActive
             },
             {
