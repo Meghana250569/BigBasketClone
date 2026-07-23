@@ -4,6 +4,7 @@ const router=express.Router();
 const {
     createCategory,
     getCategories,
+    getCategoriesWithSubCategories,
     getCategoryById,
     updateCategory,
     deleteCategory
@@ -13,10 +14,14 @@ const authenticate = require("../middleware/auth");
 const authorize = require("../middleware/authorize");
 
 router.get("/", getCategories);
+router.get(
+  "/with-subcategories",
+  getCategoriesWithSubCategories
+);
 router.get("/:id", getCategoryById);
 
 router.post(
-    "/",
+    "/createCategory",
     authenticate,
     authorize("admin"),
     createCategory
