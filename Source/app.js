@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -8,6 +9,9 @@ app.use(cors());
 app.use(express.json());
 app.use( express.urlencoded({extended: true}));
 app.use(morgan("dev"))
+app.use(cookieParser());
+
+
 
 app.get("/", (req, res) => {
     res.status(200).json({
@@ -45,6 +49,11 @@ app.get("/", (req, res) => {
      "/api/products",
      require("./routes/productRouter")
  );
+
+ app.use(
+    "/api/producttype",
+    require("./routes/productTypeRoutes")
+ )
 
 app.use(
     "/api/cart",

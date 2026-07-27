@@ -3,7 +3,7 @@ const app=require('./Source/app');
 const connectDB = require("./Source/config/db");
 
 const PORT=process.env.PORT || 5000;
-
+console.log(process.env);
 const startServer= async ()=>{
     try {
         await connectDB();
